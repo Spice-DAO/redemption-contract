@@ -6,11 +6,23 @@ contract SpiceRedemption {
     uint value = 300000000000 wei;
     address[] public whitelist;
     uint[] public claimedBurnAmount;
+    
+    //Fake SpiceToken
+    //Used for testing
+    address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
 
+
+    //Real SpiceToken
+    //address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
 
 
     //This must be reentrancy protected
     //Also ensure that payments are sent to correct place
+
+    //Receive Payment
+    //Burn Spice
+    //Transfer Eth To Sender
+
     receive() external payable {
         //require()
         sendViaCall(payable(msg.sender));
