@@ -60,6 +60,13 @@ contract SpiceRedemptionTest is Test {
         assertEq(address(1).balance, 0.3 ether);
     }
 
+    function testFailWhiteList() public {
+        cheats.prank(address(2));
+        fakeERC20.approve(address(spiceRedemption), 1000000);
+        cheats.prank(address(2));
+        spiceRedemption.redeem(1000000);
+    }
+
     function testFailWhitelistRemoval() public {
         cheats.prank(address(1));
         fakeERC20.approve(address(spiceRedemption), 1000000);

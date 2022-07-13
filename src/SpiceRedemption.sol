@@ -77,13 +77,15 @@ contract SpiceRedemption {
     function redeem(uint amount) public noReentrant payable {
         require(active, "Redemption is not currently available!");
         require(getWhitelisted(), "Not Whitelisted!");
-        require( amount <= claimedBurnAmount[getIndex()], "Amount Greater than Claimed Burn Amount");
+        uint index = getIndex();
+        require( amount <= claimedBurnAmount[index], "Amount Greater than Claimed Burn Amount");
         (bool received) = ERC20(spiceTokenAddress).transferFrom(msg.sender, 0x000000000000000000000000000000000000dEaD, amount);
         require(received, "Failed to Receive $SPICE");
         (bool sent, bytes memory data) = payable(msg.sender).call{value: amount * spiceValue}("");
         require(sent, "Failed to send Ether");
         //sendViaCall(payable(msg.sender), (amount * spiceValue));
-        delete whiteList[getIndex()];
+        delete claimedBurnAmount[index];
+        delete whiteList[index];
     }
 
 
