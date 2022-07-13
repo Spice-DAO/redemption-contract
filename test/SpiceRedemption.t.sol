@@ -47,12 +47,6 @@ contract SpiceRedemptionTest is Test {
     }
 
 
-    // function testfailCallTransferAttack() public {
-    //     spiceRedemption.sendViaCall(payable(address(1)), address(spiceRedemption).balance);
-    //     emit log_uint(address(1).balance);
-    // }
-
-
     function testApproveAndRedeem() public {
         cheats.prank(address(1));
         fakeERC20.approve(address(spiceRedemption), 1000000);
@@ -62,14 +56,15 @@ contract SpiceRedemptionTest is Test {
         assertEq(address(1).balance, 0.3 ether);
     }
 
-    function testFailRedemptionActive() public {
+    function testFailRedemptionInactive() public {
+        spiceRedemption.activeToggle();
         cheats.prank(address(1));
         fakeERC20.approve(address(spiceRedemption), 1000000);
         cheats.prank(address(1));
         spiceRedemption.redeem(1000000);
     }
 
-    function testFailWhiteList() public {
+    function testFailWhitelist() public {
         cheats.prank(address(2));
         fakeERC20.approve(address(spiceRedemption), 1000000);
         cheats.prank(address(2));
@@ -87,19 +82,21 @@ contract SpiceRedemptionTest is Test {
     }
 
     
+    function testFailRedemptionOverAmount() public {
+        cheats.prank(address(1));
+        fakeERC20.transfer(address(spiceRedemption), 2000000);
+        cheats.prank(address(1));
+        spiceRedemption.redeem(2000000);
+    }
 
 
-    function testfailRedemptionNotWhitelisted() public {
+    function testFailRedemptionNotWhitelisted() public {
         cheats.prank(address(1));
         fakeERC20.transfer(address(2), 1000000);
         cheats.prank(address(2));
         fakeERC20.transfer(address(spiceRedemption), 1000000);
+        cheats.prank(address(2));
+        spiceRedemption.redeem(1000000);
     }
-
-    function testfailRedemptionOverAmount() public {
-        cheats.prank(address(1));
-        fakeERC20.transfer(address(spiceRedemption), 2000000);
-    }
-
 
 }
