@@ -28,12 +28,14 @@ contract SpiceRedemptionTest is Test {
     address fakeAddress;
 
     function setUp() public {
+
         spiceRedemption = new SpiceRedemption();
         cheats.deal(address(spiceRedemption), 5 ether);
         cheats.prank(address(1));
         fakeERC20 = new FakeERC20(5000000);
         fakeAddress = address(fakeERC20);
         spiceRedemption.setSpiceTokenAddress(fakeAddress);
+        spiceRedemption.activeToggle();
     }
 
 
@@ -60,6 +62,13 @@ contract SpiceRedemptionTest is Test {
         assertEq(address(1).balance, 0.3 ether);
     }
 
+    function testFailRedemptionActive() public {
+        cheats.prank(address(1));
+        fakeERC20.approve(address(spiceRedemption), 1000000);
+        cheats.prank(address(1));
+        spiceRedemption.redeem(1000000);
+    }
+
     function testFailWhiteList() public {
         cheats.prank(address(2));
         fakeERC20.approve(address(spiceRedemption), 1000000);
@@ -76,6 +85,8 @@ contract SpiceRedemptionTest is Test {
         cheats.prank(address(1));
         spiceRedemption.redeem(1000000);
     }
+
+    
 
 
     function testfailRedemptionNotWhitelisted() public {
