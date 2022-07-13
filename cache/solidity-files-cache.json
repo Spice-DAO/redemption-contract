@@ -502,10 +502,10 @@
         }
       }
     },
-    "src/SpiceRedemption.sol": {
-      "lastModificationDate": 1657693452296,
-      "contentHash": "55fac8b9d5b8d891b7f9ccf2305ce8d7",
-      "sourceName": "src/SpiceRedemption.sol",
+    "src/SpiceRedeemer.sol": {
+      "lastModificationDate": 1657695092581,
+      "contentHash": "cf206aa803ba496275fa3acea6f2947b",
+      "sourceName": "src/SpiceRedeemer.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -540,15 +540,15 @@
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "SpiceRedemption": {
-          "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedemption.sol/SpiceRedemption.json"
+        "SpiceRedeemer": {
+          "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedeemer.sol/SpiceRedeemer.json"
         }
       }
     },
-    "test/SpiceRedemption.t.sol": {
-      "lastModificationDate": 1657693172704,
-      "contentHash": "363740a122ecbc1df173edcb85ccbfb3",
-      "sourceName": "test/SpiceRedemption.t.sol",
+    "test/SpiceRedeemer.t.sol": {
+      "lastModificationDate": 1657693898999,
+      "contentHash": "6ff589a13b470fff6efd561868e8aeaa",
+      "sourceName": "test/SpiceRedeemer.t.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -587,15 +587,15 @@
         "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
         "lib/openzeppelin-contracts/contracts/utils/Context.sol",
         "src/FakeERC20.sol",
-        "src/SpiceRedemption.sol"
+        "src/SpiceRedeemer.sol"
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
         "CheatCodes": {
-          "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedemption.t.sol/CheatCodes.json"
+          "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedeemer.t.sol/CheatCodes.json"
         },
-        "SpiceRedemptionTest": {
-          "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedemption.t.sol/SpiceRedemptionTest.json"
+        "SpiceRedeemerTest": {
+          "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedeemer.t.sol/SpiceRedeemerTest.json"
         }
       }
     }
