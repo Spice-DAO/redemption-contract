@@ -46,6 +46,7 @@ contract SpiceRedemption {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
     // Underscore used to execute code it modifies.
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
@@ -53,7 +54,7 @@ contract SpiceRedemption {
     }
 
     modifier funderAccounts() {
-        require(getFunder() == true, "Not a funder!");
+        require(getFunder(), "Not a funder!");
         _;
     }
 
@@ -75,6 +76,7 @@ contract SpiceRedemption {
     // Must approve tokens for the whitelisted or less than amount first
     function redeem(uint256 amount) public payable noReentrant {
         require(active, "Redemption is not currently available!");
+        require(address(this).balance > 0, "Out of Funding! Please Notify Team!");
         require(getWhitelisted(), "Not Whitelisted!");
         uint256 index = getIndex();
         require(
