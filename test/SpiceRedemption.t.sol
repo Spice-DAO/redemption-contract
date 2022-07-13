@@ -28,7 +28,6 @@ contract SpiceRedemptionTest is Test {
     address fakeAddress;
 
     function setUp() public {
-
         spiceRedemption = new SpiceRedemption();
         cheats.deal(address(spiceRedemption), 5 ether);
         cheats.prank(address(1));
@@ -36,14 +35,6 @@ contract SpiceRedemptionTest is Test {
         fakeAddress = address(fakeERC20);
         spiceRedemption.setSpiceTokenAddress(fakeAddress);
         spiceRedemption.activeToggle();
-    }
-
-
-    function testRedemptionGetSpice() public {
-        cheats.prank(address(1));
-        fakeERC20.transfer(address(spiceRedemption), 1000000);
-        assertEq(fakeERC20.balanceOf(address(spiceRedemption)), 1000000);
-        //emit log_uint(fakeERC20.balanceOf(address(spiceRedemption)));
     }
 
 
@@ -98,5 +89,18 @@ contract SpiceRedemptionTest is Test {
         cheats.prank(address(2));
         spiceRedemption.redeem(1000000);
     }
+
+    function testFailOnlyOwner() public {
+        cheats.prank(address(1));
+        spiceRedemption.updateSpiceValue(1 ether);
+    }
+
+    function testFailFunding() public {
+        cheats.deal(address(1), 5 ether);
+        cheats.prank(address(1));
+        payable(address(spiceRedemption)).transfer(3 ether);
+    }
+
+    
 
 }

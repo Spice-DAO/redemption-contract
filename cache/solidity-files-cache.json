@@ -541,8 +541,8 @@
       }
     },
     "src/SpiceRedemption.sol": {
-      "lastModificationDate": 1657690391756,
-      "contentHash": "48c9821522b13f64e1e14563ae1c6025",
+      "lastModificationDate": 1657691385516,
+      "contentHash": "fb2e734c33b18b79887bc7aab76828a4",
       "sourceName": "src/SpiceRedemption.sol",
       "solcConfig": {
         "settings": {
@@ -629,8 +629,8 @@
       }
     },
     "test/SpiceRedemption.t.sol": {
-      "lastModificationDate": 1657690610690,
-      "contentHash": "25fbc53bf69a09200fcfe649e3f7b220",
+      "lastModificationDate": 1657691556717,
+      "contentHash": "78e5f2a8b9ce33bb79f07fa620d27e4a",
       "sourceName": "test/SpiceRedemption.t.sol",
       "solcConfig": {
         "settings": {

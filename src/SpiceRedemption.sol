@@ -11,6 +11,9 @@ contract SpiceRedemption {
     uint256[] public claimedBurnAmount = [1000000];
     address owner;
 
+    //Add Other Funders
+    address[] public funders = [owner];
+
     mapping(address => uint256) public approvedAmount;
 
     //Fake SpiceToken
@@ -37,16 +40,6 @@ contract SpiceRedemption {
     //Burn Spice
     //Transfer Eth To Sender
 
-    // receive() external payable {
-    //     Require Less than or equal to claimed to burn amount
-    //     require( msg.value <= claimedBurnAmount[getIndex()]);
-    //     address sender = msg.sender;
-    //     ERC20(spiceTokenAddress).transfer(address(0), msg.value);
-    //     payable(sender).transfer(msg.value * 300 gwei);
-    //     sendViaCall(payable(msg.sender));
-
-    // }
-
     //Remove Me For Deploy
     function setSpiceTokenAddress(address tokenAddress) public {
         spiceTokenAddress = tokenAddress;
@@ -58,11 +51,21 @@ contract SpiceRedemption {
         _;
     }
 
+    modifier funderAccounts() {
+        require(getFunder() == true, "Not a funder!");
+        _;
+    }
+
     modifier noReentrant() {
         require(!locked, "No re-entrancy");
         locked = true;
         _;
         locked = false;
+    }
+
+    receive() external payable {
+        require(getFunder() == true, "Not a funder!");
+
     }
 
     //Must approve tokens for the whitelisted or less than amount first
@@ -106,6 +109,15 @@ contract SpiceRedemption {
         return false;
     }
 
+    function getFunder() public view returns (bool funder) {
+        for (uint256 i = 0; i < funders.length; i++) {
+            if (funders[i] == msg.sender) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function updateWhitelist(address[] memory newWhitelist) public onlyOwner {
         whiteList = newWhitelist;
     }
@@ -125,6 +137,12 @@ contract SpiceRedemption {
     function sendSpice(address receiver, uint256 amount) public onlyOwner {
         ERC20(spiceTokenAddress).transfer(receiver, amount);
     }
+
+    // function returnETH() public onlyOwner {
+    //     (bool sent, bytes memory data) = payable(REPLACEWITHMULTISIGADDRESSS).call{
+    //         value: address(this).balance }("");
+    //     require(sent, "Failed to send Ether");
+    // }
 
     function activeToggle() public onlyOwner {
         active = !active;
