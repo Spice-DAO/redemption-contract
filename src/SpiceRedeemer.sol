@@ -14,13 +14,16 @@ import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 // \$$$$$$  |$$$$$$$  |$$ |\$$$$$$$\ \$$$$$$$\ $$$$$$$  |$$ |  $$ | $$$$$$  |
 //  \______/ $$  ____/ \__| \_______| \_______|\_______/ \__|  \__| \______/ 
 //           $$ |                                                            
-//           $$ |                                            REDEMPTION                            
+//           $$ |                                            REDEEMER                            
 //           \__|                                            -0xNotes                
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-contract SpiceRedemption {
+/// @title SpiceDAO Redeemer
+/// @author Larry A. Gardner
+/// @notice You can use this contract for only the most basic simulation
+/// @dev All function calls are currently implemented without side effects
+contract SpiceRedeemer {
     bool internal locked;
     bool active;
     uint256 spiceValue = 300000000000 wei;
