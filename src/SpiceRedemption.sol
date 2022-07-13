@@ -31,7 +31,6 @@ contract SpiceRedemption {
     // Add Other Funders
     address[] public funders = [owner];
 
-    mapping(address => uint256) public approvedAmount;
 
     address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
 
@@ -40,10 +39,12 @@ contract SpiceRedemption {
     }
 
 
-    // Remove Me For Deploy
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Remove Me Before Deploy, strictly for testing
     function setSpiceTokenAddressREMOVEME(address tokenAddress) public onlyOwner {
         spiceTokenAddress = tokenAddress;
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Underscore used to execute code it modifies.
     modifier onlyOwner() {
