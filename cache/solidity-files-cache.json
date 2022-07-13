@@ -541,8 +541,8 @@
       }
     },
     "src/SpiceRedemption.sol": {
-      "lastModificationDate": 1657691385516,
-      "contentHash": "fb2e734c33b18b79887bc7aab76828a4",
+      "lastModificationDate": 1657691615934,
+      "contentHash": "bba6f224fd4f42fa6e47721fb7467bb5",
       "sourceName": "src/SpiceRedemption.sol",
       "solcConfig": {
         "settings": {

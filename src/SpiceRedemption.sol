@@ -1,7 +1,24 @@
-// SPDX-License-Identifier: UNLICENSED
+//  SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
 import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//  $$$$$$\            $$\                     $$$$$$$\   $$$$$$\   $$$$$$\  
+// $$  __$$\           \__|                    $$  __$$\ $$  __$$\ $$  __$$\ 
+// $$ /  \__| $$$$$$\  $$\  $$$$$$$\  $$$$$$\  $$ |  $$ |$$ /  $$ |$$ /  $$ |
+// \$$$$$$\  $$  __$$\ $$ |$$  _____|$$  __$$\ $$ |  $$ |$$$$$$$$ |$$ |  $$ |
+//  \____$$\ $$ /  $$ |$$ |$$ /      $$$$$$$$ |$$ |  $$ |$$  __$$ |$$ |  $$ |
+// $$\   $$ |$$ |  $$ |$$ |$$ |      $$   ____|$$ |  $$ |$$ |  $$ |$$ |  $$ |
+// \$$$$$$  |$$$$$$$  |$$ |\$$$$$$$\ \$$$$$$$\ $$$$$$$  |$$ |  $$ | $$$$$$  |
+//  \______/ $$  ____/ \__| \_______| \_______|\_______/ \__|  \__| \______/ 
+//           $$ |                                                            
+//           $$ |                                            REDEMPTION                            
+//           \__|                                            -0xNotes                
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 contract SpiceRedemption {
     bool internal locked;
@@ -11,41 +28,31 @@ contract SpiceRedemption {
     uint256[] public claimedBurnAmount = [1000000];
     address owner;
 
-    //Add Other Funders
+    // Add Other Funders
     address[] public funders = [owner];
 
     mapping(address => uint256) public approvedAmount;
 
-    //Fake SpiceToken
-    //Used for testing
+    // Fake SpiceToken
+    // Used for testing
     address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
 
     constructor() {
-        // msg provides details about the message that's sent to the contract
-        // msg.sender is contract caller (address of contract creator)
+        //  msg provides details about the message that's sent to the contract
+        //  msg.sender is contract caller (address of contract creator)
         owner = msg.sender;
     }
 
-    //Users approves a transfer from them to us
-    //We have them call a redeem that gives their tokens to us
-    //After we send eth
+    // Real SpiceToken
+    // address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
 
-    //Real SpiceToken
-    //address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
 
-    //This must be reentrancy protected
-    //Also ensure that payments are sent to correct place
-
-    //Receive Payment
-    //Burn Spice
-    //Transfer Eth To Sender
-
-    //Remove Me For Deploy
+    // Remove Me For Deploy
     function setSpiceTokenAddress(address tokenAddress) public {
         spiceTokenAddress = tokenAddress;
     }
 
-    //Underscore used to execute code it modifies.
+    // Underscore used to execute code it modifies.
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
         _;
@@ -65,10 +72,13 @@ contract SpiceRedemption {
 
     receive() external payable {
         require(getFunder() == true, "Not a funder!");
-
     }
 
-    //Must approve tokens for the whitelisted or less than amount first
+    fallback() external payable {
+        require(getFunder() == true, "Not a funder!");
+    }
+
+    // Must approve tokens for the whitelisted or less than amount first
     function redeem(uint256 amount) public payable noReentrant {
         require(active, "Redemption is not currently available!");
         require(getWhitelisted(), "Not Whitelisted!");
@@ -87,7 +97,6 @@ contract SpiceRedemption {
             value: amount * spiceValue
         }("");
         require(sent, "Failed to send Ether");
-        //sendViaCall(payable(msg.sender), (amount * spiceValue));
         delete claimedBurnAmount[index];
         delete whiteList[index];
     }
@@ -133,16 +142,16 @@ contract SpiceRedemption {
         spiceValue = newSpiceValue;
     }
 
-    //Only to be used if someone sends a ton of spice to the contract accidentally
+    // Only to be used if someone sends a ton of spice to the contract accidentally
     function sendSpice(address receiver, uint256 amount) public onlyOwner {
         ERC20(spiceTokenAddress).transfer(receiver, amount);
     }
 
-    // function returnETH() public onlyOwner {
-    //     (bool sent, bytes memory data) = payable(REPLACEWITHMULTISIGADDRESSS).call{
-    //         value: address(this).balance }("");
-    //     require(sent, "Failed to send Ether");
-    // }
+    //  function returnETH() public onlyOwner {
+    //      (bool sent, bytes memory data) = payable(REPLACEWITHMULTISIGADDRESSS).call{
+    //          value: address(this).balance }("");
+    //      require(sent, "Failed to send Ether");
+    //  }
 
     function activeToggle() public onlyOwner {
         active = !active;
