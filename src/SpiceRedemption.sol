@@ -1,0 +1,127 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+
+
+contract SpiceRedemption {
+    bool internal locked;
+    bool active = false;
+    uint spiceValue = 300000000000 wei;
+    address[] public whiteList = [address(1)];
+    uint[] public claimedBurnAmount = [1000000];
+    address owner;
+
+
+    mapping(address => uint) public approvedAmount;
+
+    
+    //Fake SpiceToken
+    //Used for testing
+    address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
+
+    constructor(){
+        // msg provides details about the message that's sent to the contract
+        // msg.sender is contract caller (address of contract creator)
+        owner = msg.sender;
+    }
+
+
+    //Users approves a transfer from them to us
+    //We have them call a redeem that gives their tokens to us
+    //After we send eth
+
+
+    //Real SpiceToken
+    //address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
+
+
+    //This must be reentrancy protected
+    //Also ensure that payments are sent to correct place
+
+    //Receive Payment
+    //Burn Spice
+    //Transfer Eth To Sender
+
+    // receive() external payable {
+    //     Require Less than or equal to claimed to burn amount
+    //     require( msg.value <= claimedBurnAmount[getIndex()]);
+    //     address sender = msg.sender;
+    //     ERC20(spiceTokenAddress).transfer(address(0), msg.value);
+    //     payable(sender).transfer(msg.value * 300 gwei);
+    //     sendViaCall(payable(msg.sender));
+        
+    // }
+
+
+
+    //Remove Me For Deploy
+    function setSpiceTokenAddress(address tokenAddress) public {
+            spiceTokenAddress= tokenAddress;
+    }
+
+    //Underscore used to execute code it modifies.
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+
+    modifier noReentrant() {
+        require(!locked, "No re-entrancy");
+        locked = true;
+        _;
+        locked = false;
+    }
+
+    //Must approve tokens for the whitelisted or less than amount first
+    function redeem(uint amount) public noReentrant payable {
+        require(active, "Redemption is not currently available!");
+        require(getWhitelisted(), "Not Whitelisted!");
+        require( amount <= claimedBurnAmount[getIndex()], "Amount Greater than Claimed Burn Amount");
+        (bool received) = ERC20(spiceTokenAddress).transferFrom(msg.sender, 0x000000000000000000000000000000000000dEaD, amount);
+        require(received, "Failed to Receive $SPICE");
+        (bool sent, bytes memory data) = payable(msg.sender).call{value: amount * spiceValue}("");
+        require(sent, "Failed to send Ether");
+        //sendViaCall(payable(msg.sender), (amount * spiceValue));
+        delete whiteList[getIndex()];
+    }
+
+
+    function getIndex() public view returns(uint index){
+        for(uint i = 0; i < whiteList.length; i++){
+            if(whiteList[i] == msg.sender){
+                return i;
+            }
+        }
+    }
+
+    function getWhitelisted() public view returns(bool whiteListed){
+        for(uint i = 0; i < whiteList.length; i++){
+            if(whiteList[i] == msg.sender){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function updateWhitelist(address[] memory newWhitelist) public onlyOwner {
+        whiteList = newWhitelist;
+    }
+
+    function updateClaimedBurnAmount(uint256[] memory newClaimedBurnAmount) public onlyOwner{
+        claimedBurnAmount = newClaimedBurnAmount;
+    }
+
+    function updateSpiceValue(uint256 newSpiceValue) public onlyOwner{
+        spiceValue = newSpiceValue;
+    }
+
+    function activeToggle() public onlyOwner{
+        active = !active;
+    }
+
+
+
+    
+
+}
