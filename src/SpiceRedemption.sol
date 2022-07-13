@@ -41,7 +41,7 @@ contract SpiceRedemption {
 
 
     // Remove Me For Deploy
-    function setSpiceTokenAddress(address tokenAddress) public onlyOwner {
+    function setSpiceTokenAddressREMOVEME(address tokenAddress) public onlyOwner {
         spiceTokenAddress = tokenAddress;
     }
 

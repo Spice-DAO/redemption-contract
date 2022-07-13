@@ -33,7 +33,7 @@ contract SpiceRedemptionTest is Test {
         cheats.prank(address(1));
         fakeERC20 = new FakeERC20(5000000);
         fakeAddress = address(fakeERC20);
-        spiceRedemption.setSpiceTokenAddress(fakeAddress);
+        spiceRedemption.setSpiceTokenAddressREMOVEME(fakeAddress);
         spiceRedemption.activeToggle();
     }
 
