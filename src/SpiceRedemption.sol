@@ -22,7 +22,7 @@ import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
 contract SpiceRedemption {
     bool internal locked;
-    bool active = false;
+    bool active;
     uint256 spiceValue = 300000000000 wei;
     address[] public whiteList = [address(1)];
     uint256[] public claimedBurnAmount = [1000000];
@@ -33,22 +33,15 @@ contract SpiceRedemption {
 
     mapping(address => uint256) public approvedAmount;
 
-    // Fake SpiceToken
-    // Used for testing
     address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
 
     constructor() {
-        //  msg provides details about the message that's sent to the contract
-        //  msg.sender is contract caller (address of contract creator)
         owner = msg.sender;
     }
 
-    // Real SpiceToken
-    // address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
-
 
     // Remove Me For Deploy
-    function setSpiceTokenAddress(address tokenAddress) public {
+    function setSpiceTokenAddress(address tokenAddress) public onlyOwner {
         spiceTokenAddress = tokenAddress;
     }
 

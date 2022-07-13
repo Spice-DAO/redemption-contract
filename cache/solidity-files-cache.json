@@ -459,44 +459,6 @@
         }
       }
     },
-    "src/Contract.sol": {
-      "lastModificationDate": 1657661696133,
-      "contentHash": "0a4db02f64172ef6ba21d89f49444a92",
-      "sourceName": "src/Contract.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs"
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "libraries": {}
-        }
-      },
-      "imports": [],
-      "versionRequirement": "^0.8.13",
-      "artifacts": {
-        "Contract": {
-          "0.8.13+commit.abaa5c0e.Linux.gcc": "Contract.sol/Contract.json"
-        }
-      }
-    },
     "src/FakeERC20.sol": {
       "lastModificationDate": 1657664975588,
       "contentHash": "8e89e91e9ff48e1134f17799e7ea9062",
@@ -541,8 +503,8 @@
       }
     },
     "src/SpiceRedemption.sol": {
-      "lastModificationDate": 1657691615934,
-      "contentHash": "bba6f224fd4f42fa6e47721fb7467bb5",
+      "lastModificationDate": 1657693100625,
+      "contentHash": "1772c4e73b091e28ef3dc364d0725837",
       "sourceName": "src/SpiceRedemption.sol",
       "solcConfig": {
         "settings": {
@@ -580,51 +542,6 @@
       "artifacts": {
         "SpiceRedemption": {
           "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedemption.sol/SpiceRedemption.json"
-        }
-      }
-    },
-    "test/Contract.t.sol": {
-      "lastModificationDate": 1657661696133,
-      "contentHash": "848ba83feec29a2e4d286c118102ae20",
-      "sourceName": "test/Contract.t.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs"
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "libraries": {}
-        }
-      },
-      "imports": [
-        "lib/forge-std/lib/ds-test/src/test.sol",
-        "lib/forge-std/src/Script.sol",
-        "lib/forge-std/src/Test.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol"
-      ],
-      "versionRequirement": "^0.8.13",
-      "artifacts": {
-        "ContractTest": {
-          "0.8.13+commit.abaa5c0e.Linux.gcc": "Contract.t.sol/ContractTest.json"
         }
       }
     },
