@@ -9,13 +9,14 @@ import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 /// @notice This contract is used to burn whitelisted users spice for a set value of eth
 /// @dev whiteList and claimedBurnAmount must be in same order
 contract SpiceRedeemer {
+    //GIVE THIS FAKESPICE
     address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
     address owner;
     bool internal locked;
     bool active;
     uint256 spiceValue = 300000000000 wei;
-    address[] public whiteList = [address(1)];
-    uint256[] public claimedBurnAmount = [1000000];
+    address[] public whiteList = [address(1), 0x9b5C1305a13637d473535b4BF306351212A2387d];
+    uint256[] public claimedBurnAmount = [1000000, 1000000];
     address[] public funders = [owner];    // Add Other Funders
 
 
@@ -54,11 +55,6 @@ contract SpiceRedeemer {
     }
 
 
-    receive() external payable {
-        require(getFunder() == true, "Not a funder!");
-    }
-
-
     fallback() external payable {
         require(getFunder() == true, "Not a funder!");
     }
@@ -81,12 +77,13 @@ contract SpiceRedeemer {
             amount
         );
         require(received, "Failed to Receive $SPICE");
+        delete claimedBurnAmount[index];
+        delete whiteList[index];
         (bool sent, bytes memory data) = payable(msg.sender).call{
             value: amount * spiceValue
         }("");
         require(sent, "Failed to send Ether");
-        delete claimedBurnAmount[index];
-        delete whiteList[index];
+
     }
 
 
