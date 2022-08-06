@@ -460,7 +460,7 @@
       }
     },
     "src/FakeERC20.sol": {
-      "lastModificationDate": 1657664975588,
+      "lastModificationDate": 1658874141077,
       "contentHash": "8e89e91e9ff48e1134f17799e7ea9062",
       "sourceName": "src/FakeERC20.sol",
       "solcConfig": {
@@ -503,8 +503,8 @@
       }
     },
     "src/SpiceRedeemer.sol": {
-      "lastModificationDate": 1657695092581,
-      "contentHash": "cf206aa803ba496275fa3acea6f2947b",
+      "lastModificationDate": 1659041828549,
+      "contentHash": "bf85b66f7a31036ac421ed9e3dffe026",
       "sourceName": "src/SpiceRedeemer.sol",
       "solcConfig": {
         "settings": {
@@ -542,6 +542,49 @@
       "artifacts": {
         "SpiceRedeemer": {
           "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedeemer.sol/SpiceRedeemer.json"
+        }
+      }
+    },
+    "src/SpiceRedeemerRemix.sol": {
+      "lastModificationDate": 1658914502690,
+      "contentHash": "8d02e97339f02ab2f59c28959792ee39",
+      "sourceName": "src/SpiceRedeemerRemix.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "^0.8.13",
+      "artifacts": {
+        "SpiceRedeemer": {
+          "0.8.13+commit.abaa5c0e.Linux.gcc": "SpiceRedeemerRemix.sol/SpiceRedeemer.json"
         }
       }
     },

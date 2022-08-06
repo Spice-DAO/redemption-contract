@@ -10,16 +10,16 @@ import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 /// @dev whiteList and claimedBurnAmount must be in same order
 contract SpiceRedeemer {
     //GIVE THIS FAKESPICE
-    address spiceTokenAddress = 0x9b6dB7597a74602a5A806E33408e7E2DAFa58193;
+    address spiceTokenAddress = 0xFB4a659be55D0A6BC2DD71FcB3cC643F91bE1A35;
     address owner;
     bool internal locked;
     bool active = true;
     uint256 spiceValue = 300000000000 wei;
     address[] public whiteList = [address(1), 0x9b5C1305a13637d473535b4BF306351212A2387d];
-    uint256[] public claimedBurnAmount = [1000000, 1000000];
+    uint256[] public claimedBurnAmount = [1000000, 100000000000000000000];
     address[] public funders;    // Add Other Funders
-
-
+    address[] public burnList; 
+    mapping(address => uint) burnCount;
 
 
     constructor() {
@@ -61,29 +61,17 @@ contract SpiceRedeemer {
         require(getFunder() == true, "Not a funder!");
     }
 
-    function approve(uint256 amount) public noReentrant{
-        ERC20(spiceTokenAddress).approve(address(this), amount);
-    }
-
-    function burn() public noReentrant{
-        uint256 allowance = ERC20(spiceTokenAddress).allowance(msg.sender, address(this));
-
-        bool received = ERC20(spiceTokenAddress).transferFrom(
-            msg.sender,
-            0x000000000000000000000000000000000000dEaD,
-            allowance
-        );
-        require(received, "Failed to Receive $SPICE");
+    function getAllowance() public view returns (uint256){
+        return ERC20(spiceTokenAddress).allowance(msg.sender, address(this));
     }
 
 
+    function burn(uint256 amount) public noReentrant{
 
-    /// @notice Burns Spice to Receive Eth
-    /// @param amount the amount of spice to burn, influence amount of ETH received
-    function redeem(uint256 amount) public noReentrant {
-        require(active, "Redemption is not currently available!");
         require(getWhitelisted(), "Not Whitelisted!");
+
         uint256 index = getIndex();
+
         require(
             amount <= claimedBurnAmount[index],
             "Amount Greater than Claimed Burn Amount"
@@ -94,13 +82,32 @@ contract SpiceRedeemer {
             0x000000000000000000000000000000000000dEaD,
             amount
         );
+        burnList.push(msg.sender);
+        burnCount[msg.sender] = amount;
         require(received, "Failed to Receive $SPICE");
+    }
 
-        delete whiteList[index];
-        
+
+    function isBurnlisted() public view returns (bool){
+        for (uint256 i = 0; i < burnList.length; i++) {
+            if (burnList[i] == msg.sender) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /// @notice Redeems Eth After Burn!
+    function redeem() public noReentrant {
+        require(active, "Redemption is not currently available!");
+        require(getWhitelisted(), "Not Whitelisted!");
+        require(isBurnlisted(), "Havent Burned!");
+        uint256 index = getIndex();
         (bool sent, bytes memory data) = payable(msg.sender).call{
-            value: amount * spiceValue
+            value: ((burnCount[msg.sender] / 1 ether) * spiceValue)
         }("");
+        delete whiteList[index];
         require(sent, "Failed to send Ether");
     }
 
